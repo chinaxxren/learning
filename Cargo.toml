@@ -1,0 +1,8 @@
+[workspace]
+
+members = ["rust-demo", "rust-async", "rust-lib"]
+
+resolver = "2"
+
+[workspace.dependencies]
+tokio = { version = "1.36.0", features = ["full"] }

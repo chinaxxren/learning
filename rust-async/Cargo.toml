@@ -1,0 +1,94 @@
+[package]
+name = "rust_async"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-std = { version = "1.13.0", features = ["attributes"] }
+futures = "0.3.17"
+pin-utils = "0.1.0"
+tokio = { workspace = true }
+
+[[bin]]
+name = "other"
+path = "src/other/main.rs"
+
+[[bin]]
+name = "1_hello"
+path = "src/demo/1_hello.rs"
+
+[[bin]]
+name = "2_await"
+path = "src/demo/2_await.rs"
+
+[[bin]]
+name = "3_await_sleep"
+path = "src/demo/3_await_sleep.rs"
+
+[[bin]]
+name = "4_learn"
+path = "src/demo/4_learn.rs"
+
+[[bin]]
+name = "5_simple_future"
+path = "src/demo/5_simple_future.rs"
+
+[[bin]]
+name = "6_time_future"
+path = "src/demo/6_time_future.rs"
+
+[[bin]]
+name = "7_test"
+path = "src/demo/7_test.rs"
+
+[[bin]]
+name = "8_test_swap"
+path = "src/demo/8_test_swap.rs"
+
+[[bin]]
+name = "9_test_pin"
+path = "src/demo/9_test_pin.rs"
+
+[[bin]]
+name = "10_generator"
+path = "src/demo/10_generator.rs"
+
+
+########################################################################################################\
+
+[[example]]
+name = "futures"
+path = "src/example/futures.rs"
+
+[[example]]
+name = "delay"
+path = "src/example/delay.rs"
+
+[[example]]
+name = "delay_ext"
+path = "src/example/delay_ext.rs"
+
+[[example]]
+name = "mini_tokio"
+path = "src/example/mini_tokio.rs"
+
+[[example]]
+name = "yield_now"
+path = "src/example/yield_now.rs"
+
+[[example]]
+name = "my_select"
+path = "src/example/my_select.rs"
+
+[[example]]
+name = "waker"
+path = "src/example/waker.rs"
+
+[[example]]
+name = "impl_future"
+path = "src/example/impl_future.rs"
+
+[[example]]
+name = "impl_future_waker"
+path = "src/example/impl_future_waker.rs"
+
