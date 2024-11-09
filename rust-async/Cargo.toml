@@ -49,11 +49,6 @@ path = "src/demo/8_test_swap.rs"
 name = "9_test_pin"
 path = "src/demo/9_test_pin.rs"
 
-[[bin]]
-name = "10_generator"
-path = "src/demo/10_generator.rs"
-
-
 ########################################################################################################\
 
 [[example]]

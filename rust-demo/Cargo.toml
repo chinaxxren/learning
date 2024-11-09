@@ -1,8 +1,82 @@
 [package]
-name = "rust-demo"
+name = "rust_demo"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 
 rust_lib ={ path = "../rust-lib"}
+tokio = {workspace = true}
+rayon = "1.9.0"
+
+######################################################################################################3
+
+[[bin]]
+name = "1_buffer"
+path = "file/1_buffer.rs"
+
+[[bin]]
+name = "2_visit_dirs"
+path = "file/2_visit_dirs.rs"
+
+[[bin]]
+name = "3_monitor"
+path = "file/3_monitor.rs"
+
+[[bin]]
+name = "4_replace"
+path = "file/4_replace.rs"
+
+[[bin]]
+name = "5_batch"
+path = "file/5_batch.rs"
+
+######################################################################################################
+
+[[bin]]
+name = "1_base"
+path = "mem/1_base.rs"
+
+[[bin]]
+name = "2_swap"
+path = "mem/2_swap.rs"
+
+[[bin]]
+name = "3_take_replace"
+path = "mem/3_take_replace.rs"
+
+[[bin]]
+name = "4_forget"
+path = "mem/4_forget.rs"
+
+[[bin]]
+name = "5_transmute"
+path = "mem/5_transmute.rs"
+
+[[bin]]
+name = "6_zero_cost"
+path = "mem/6_zero_cost.rs"
+
+[[bin]]
+name = "7_align"
+path = "mem/7_align.rs"
+
+[[bin]]
+name = "8_smart_replace"
+path = "mem/8_smart_replace.rs"
+
+[[bin]]
+name = "9_state"
+path = "mem/9_state.rs"
+
+[[bin]]
+name = "10_pool"
+path = "mem/10_pool.rs"
+
+[[bin]]
+name = "11_unlock"
+path = "mem/11_unlock.rs"
+
+[[bin]]
+name = "chat_server"
+path = "net/chat_server.rs"

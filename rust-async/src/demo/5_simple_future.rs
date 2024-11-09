@@ -1,3 +1,14 @@
+/*use tokio::io::AsyncReadExt;
+use tokio::net::TcpStream;
+use tokio::net::TcpListener;
+use tokio::net::TcpSocket;
+use std::net::{IpAddr, Ipv4Addr, SocketAddrV4};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::AtomicUsize;
+use std::task::Waker;
+use std::sync::Arc;
+use std::sync::Mutex;
+
 trait SimpleFuture {
     type Output;
     fn poll(&mut self, wake: fn()) -> Poll<Self::Output>;
@@ -52,16 +63,16 @@ where
 }
 
 pub struct SocketRead<'a> {
-    socket: &'a Socket,
+    socket: &'a TcpSocket,
 }
 
 impl SimpleFuture for SocketRead<'_> {
     type Output = Vec<u8>;
 
     fn poll(&mut self, wake: fn()) -> Poll<Self::Output> {
-        if self.socket.has_data_to_read() {
+        if self.socket.keepalive().unwrap() {
             // socket有数据，写入buffer中并返回
-            Poll::Ready(self.socket.read_buf())
+            Poll::Ready(self.socket.read_buf(b"asdf"))
         } else {
             // socket中还没数据
             // 
@@ -72,3 +83,5 @@ impl SimpleFuture for SocketRead<'_> {
         }
     }
 }
+*/
+fn main() {}
