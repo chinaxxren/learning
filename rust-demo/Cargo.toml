@@ -80,3 +80,25 @@ path = "mem/11_unlock.rs"
 [[bin]]
 name = "chat_server"
 path = "net/chat_server.rs"
+
+############################################################################
+
+[[bin]]
+name = "object"
+path = "trait/object.rs"
+
+[[bin]]
+name = "callback"
+path = "trait/callback.rs"
+
+[[bin]]
+name = "transmute"
+path = "trait/transmute.rs"
+
+[[bin]]
+name = "base"
+path = "trait/base.rs"
+
+[[bin]]
+name = "sized"
+path = "trait/sized.rs"
