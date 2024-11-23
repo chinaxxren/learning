@@ -626,6 +626,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust-channel"
+version = "0.1.0"
+
+[[package]]
 name = "rust-thread"
 version = "0.1.0"
 

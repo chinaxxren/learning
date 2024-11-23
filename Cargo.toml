@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["rust-demo", "rust-async", "rust-lib", "rust-thread"]
+members = ["rust-demo", "rust-async", "rust-lib", "rust-thread", "rust-channel"]
 
 resolver = "2"
 
