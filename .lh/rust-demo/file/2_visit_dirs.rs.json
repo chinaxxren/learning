@@ -1,0 +1,66 @@
+{
+    "sourceFile": "rust-demo/file/2_visit_dirs.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 12,
+            "patches": [
+                {
+                    "date": 1731134038642,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731134065811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./some_directory\");\n+    let path = Path::new(\"./file\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n\\ No newline at end of file\n-}\n+}\n"
+                },
+                {
+                    "date": 1731134142038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./file\");\n+    let path = Path::new(\".\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n\\ No newline at end of file\n-}\n+}\n"
+                },
+                {
+                    "date": 1731134171193,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\".\");\n+    let path = Path::new(\"./\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n\\ No newline at end of file\n-}\n+}\n"
+                },
+                {
+                    "date": 1731134176642,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./\");\n+    let path = Path::new(\"./src/file\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n\\ No newline at end of file\n-}\n+}\n"
+                },
+                {
+                    "date": 1731134181915,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,5 +23,5 @@\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n-}\n\\ No newline at end of file\n+}\n"
+                },
+                {
+                    "date": 1731134194412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./src/file\");\n+    let path = Path::new(\"./src\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n"
+                },
+                {
+                    "date": 1731134270176,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./src\");\n+    let path = Path::new(\"./rust-async\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n"
+                },
+                {
+                    "date": 1731134277453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./rust-async\");\n+    let path = Path::new(\"./rust-demo\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n"
+                },
+                {
+                    "date": 1731134283559,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./rust-demo\");\n+    let path = Path::new(\"./rust-demo/file\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n"
+                },
+                {
+                    "date": 1731134317922,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n use std::fs::{self, DirEntry};\n use std::io;\n use std::path::Path;\n \n-fn visit_dirs(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {\n+fn visit_dirs(dir: &Path, fn: &dyn Fn(&DirEntry)) -> io::Result<()> {\n     if dir.is_dir() {\n         for entry in fs::read_dir(dir)? {\n             let entry = entry?;\n             let path = entry.path();\n"
+                },
+                {
+                    "date": 1731134346814,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n use std::fs::{self, DirEntry};\n use std::io;\n use std::path::Path;\n \n-fn visit_dirs(dir: &Path, fn: &dyn Fn(&DirEntry)) -> io::Result<()> {\n+fn visit_dirs(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {\n     if dir.is_dir() {\n         for entry in fs::read_dir(dir)? {\n             let entry = entry?;\n             let path = entry.path();\n@@ -18,9 +18,9 @@\n }\n \n // 使用示例\n fn main() -> io::Result<()> {\n-    let path = Path::new(\"./rust-demo/file\");\n+    let path = Path::new(\"./rust-demo\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n     Ok(())\n"
+                },
+                {
+                    "date": 1731134416114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,6 +22,7 @@\n     let path = Path::new(\"./rust-demo\");\n     visit_dirs(&path, &|entry| {\n         println!(\"Found file: {}\", entry.path().display());\n     })?;\n+    \n     Ok(())\n }\n"
+                }
+            ],
+            "date": 1731134038642,
+            "name": "Commit-0",
+            "content": "use std::fs::{self, DirEntry};\nuse std::io;\nuse std::path::Path;\n\nfn visit_dirs(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {\n    if dir.is_dir() {\n        for entry in fs::read_dir(dir)? {\n            let entry = entry?;\n            let path = entry.path();\n            if path.is_dir() {\n                visit_dirs(&path, cb)?;\n            } else {\n                cb(&entry);\n            }\n        }\n    }\n    Ok(())\n}\n\n// 使用示例\nfn main() -> io::Result<()> {\n    let path = Path::new(\"./some_directory\");\n    visit_dirs(&path, &|entry| {\n        println!(\"Found file: {}\", entry.path().display());\n    })?;\n    Ok(())\n}"
+        }
+    ]
+}

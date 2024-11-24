@@ -1,0 +1,98 @@
+{
+    "sourceFile": "rust-demo/mem/9_state.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 20,
+            "patches": [
+                {
+                    "date": 1731121438836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731121444661,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-us\n\\ No newline at end of file\n+use stg\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731121450103,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-use stg\n\\ No newline at end of file\n+use std::\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731121455415,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-use std::\n\\ No newline at end of file\n+use std::mem;\n"
+                },
+                {
+                    "date": 1731121467516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,28 @@\n use std::mem;\n+\n+enum State {\n+    Initial,\n+    Processing,\n+    Final,\n+}\n+\n+struct StateMachine {\n+    state: State,\n+    data: Vec<u8>,\n+}\n+\n+impl StateMachine {\n+    fn transition(&mut self, new_state: State) -> State {\n+        mem::replace(&mut self.state, new_state)\n+    }\n+\n+    fn process(&mut self) {\n+        let old_state = self.transition(State::Processing);\n+        // 处理逻辑\n+        match old_state {\n+            State::Initial => { /* ... */ }\n+            State::Processing => { /* ... */ }\n+            State::Final => { /* ... */ }\n+        }\n+    }\n+}\n"
+                },
+                {
+                    "date": 1731121473137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,4 +25,8 @@\n             State::Final => { /* ... */ }\n         }\n     }\n }\n+\n+fn main() {\n+    let mut sm = StateMachine {\n+        state: State::Initial,\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731121478314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,5 +28,10 @@\n }\n \n fn main() {\n     let mut sm = StateMachine {\n-        state: State::Initial,\n\\ No newline at end of file\n+        state: State::Initial,\n+        data: vec![1, 2, 3],\n+    };\n+    sm.process();\n+    sm.process();\n+    sm.process();\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731121548010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     fn process(&mut self) {\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n-            State::Initial => { /* ... */ }\n+            State::Initial => { p }\n             State::Processing => { /* ... */ }\n             State::Final => { /* ... */ }\n         }\n     }\n@@ -33,5 +33,6 @@\n         data: vec![1, 2, 3],\n     };\n     sm.process();\n     sm.process();\n-    sm.process();\n\\ No newline at end of file\n+    sm.process();\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731121556145,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,10 @@\n     fn process(&mut self) {\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n-            State::Initial => { p }\n-            State::Processing => { /* ... */ }\n+            State::Initial => { println!(\"初始状态\"); }\n+            State::Processing => { p }\n             State::Final => { /* ... */ }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1731121562491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,10 +20,10 @@\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => { println!(\"初始状态\"); }\n-            State::Processing => { p }\n-            State::Final => { /* ... */ }\n+            State::Processing => { println!(\"处理中\"); }\n+            State::Final => { p }\n         }\n     }\n }\n \n"
+                },
+                {
+                    "date": 1731121571057,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,11 +19,17 @@\n     fn process(&mut self) {\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n-            State::Initial => { println!(\"初始状态\"); }\n-            State::Processing => { println!(\"处理中\"); }\n-            State::Final => { p }\n+            State::Initial => {\n+                println!(\"初始状态\");\n+            }\n+            State::Processing => {\n+                println!(\"处理中\");\n+            }\n+            State::Final => {\n+                println!(\"已完成\");\n+            }\n         }\n     }\n }\n \n@@ -34,5 +40,5 @@\n     };\n     sm.process();\n     sm.process();\n     sm.process();\n-}\n\\ No newline at end of file\n+}\n"
+                },
+                {
+                    "date": 1731121679600,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,6 +39,6 @@\n         data: vec![1, 2, 3],\n     };\n     sm.process();\n     sm.process();\n-    sm.process();\n+    // sm.process();\n }\n"
+                },
+                {
+                    "date": 1731121692256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,6 +39,6 @@\n         data: vec![1, 2, 3],\n     };\n     sm.process();\n     sm.process();\n-    // sm.process();\n+    sm.process();\n }\n"
+                },
+                {
+                    "date": 1731121711903,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n         mem::replace(&mut self.state, new_state)\n     }\n \n     fn process(&mut self) {\n+        //\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121717262,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         mem::replace(&mut self.state, new_state)\n     }\n \n     fn process(&mut self) {\n-        //\n+        // 状态转移,\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121725784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         mem::replace(&mut self.state, new_state)\n     }\n \n     fn process(&mut self) {\n-        // 状态转移,\n+        // 状态转移, 并获取旧状态\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121732810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,10 @@\n     }\n \n     fn process(&mut self) {\n         // 状态转移, 并获取旧状态\n+        // 这里的 replace 函数会返回旧值\n+        \n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121738585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,10 @@\n \n     fn process(&mut self) {\n         // 状态转移, 并获取旧状态\n         // 这里的 replace 函数会返回旧值\n-        \n+        // 并将新值替换到原来的位置\n+        //\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121752397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     fn process(&mut self) {\n         // 状态转移, 并获取旧状态\n         // 这里的 replace 函数会返回旧值\n         // 并将新值替换到原来的位置\n+        // 这里的 match 语句会根据旧状态来做不同的处理\n         //\n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n"
+                },
+                {
+                    "date": 1731121758348,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         // 状态转移, 并获取旧状态\n         // 这里的 replace 函数会返回旧值\n         // 并将新值替换到原来的位置\n         // 这里的 match 语句会根据旧状态来做不同的处理\n-        //\n+        \n         let old_state = self.transition(State::Processing);\n         // 处理逻辑\n         match old_state {\n             State::Initial => {\n"
+                },
+                {
+                    "date": 1731121929314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n     Processing,\n     Final,\n }\n \n+//\n struct StateMachine {\n     state: State,\n     data: Vec<u8>,\n }\n"
+                }
+            ],
+            "date": 1731121438836,
+            "name": "Commit-0",
+            "content": "us"
+        }
+    ]
+}

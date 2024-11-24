@@ -1,0 +1,26 @@
+{
+    "sourceFile": "rust-demo/mem/8_smart_replace.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731121092974,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731121099357,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-fn m() {\n+fn main() {\n     // Vector清空优化\n     let mut vec = vec![1, 2, 3];\n     let old_vec = mem::take(&mut vec);\n     // 比 vec.clear() 更高效\n"
+                },
+                {
+                    "date": 1731121291592,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,26 @@\n+use std::mem;\n+\n+fn main() {\n+    // Vector清空优化\n+    let mut vec = vec![1, 2, 3];\n+    let old_vec = mem::take(&mut vec);\n+    // 比 vec.clear() 更高效\n+    println!(\"Old vec: {:?}\", old_vec);\n+    \n+    let mut opt = Some(String::from(\"old\"));\n+\n+    // 检查 opt 是否为 Some，如果是，则更新值\n+    if let Some(ref mut value) = opt {\n+        *value = String::from(\"new\");\n+    }\n+\n+    // 打印更新后的值\n+    println!(\"{:?}\", opt); // 输出: Some(\"new\")\n+\n+    // Option更新优化\n+    let mut opt = Some(String::from(\"old\"));\n+    if let Some(s) = opt.as_mut() {\n+        let old = mem::replace(s, String::from(\"new\"));\n+        println!(\"Replaced: {}\", old);\n+    }\n+}\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1731121092974,
+            "name": "Commit-0",
+            "content": "fn smart_replacement_patterns() {\n    // Vector清空优化\n    let mut vec = vec![1, 2, 3];\n    let old_vec = mem::take(&mut vec);\n    // 比 vec.clear() 更高效\n\n    // Option更新优化\n    let mut opt = Some(String::from(\"old\"));\n    if let Some(s) = opt.as_mut() {\n        let old = mem::replace(s, String::from(\"new\"));\n        println!(\"Replaced: {}\", old);\n    }\n}"
+        }
+    ]
+}

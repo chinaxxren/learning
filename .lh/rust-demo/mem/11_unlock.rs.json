@@ -1,0 +1,226 @@
+{
+    "sourceFile": "rust-demo/mem/11_unlock.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 52,
+            "patches": [
+                {
+                    "date": 1731122498686,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731122757502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,35 +1,48 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n \n+// 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n+    // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n }\n \n+// 栈节点结构\n struct Node<T> {\n+    // 下一个节点的指针\n     next: *mut Node<T>,\n+    // 节点存储的值\n     value: T,\n }\n \n impl<T> LockFreeStack<T> {\n+    // 向栈中添加一个新元素\n     fn push(&self, value: T) {\n+        // 创建一个新节点，初始时next指针为空\n         let new_node = Box::new(Node {\n             next: std::ptr::null_mut(),\n             value,\n         });\n+        // 将新节点的Box转换为原始指针\n         let new_ptr = Box::into_raw(new_node);\n \n+        // 使用CAS（Compare And Swap）循环直到成功添加新节点\n         loop {\n+            // 加载当前栈的头节点指针\n             let head = self.head.load(Ordering::Relaxed);\n+            // 将新节点的next指针设置为当前的头节点\n             unsafe {\n                 (*new_ptr).next = head;\n             }\n \n+            // 尝试使用CAS更新头节点指针为新节点的指针\n             if self.head.compare_exchange(\n                 head,\n                 new_ptr,\n                 Ordering::Release,\n                 Ordering::Relaxed\n             ).is_ok() {\n+                // 如果更新成功，则退出循环\n                 break;\n             }\n         }\n     }\n"
+                },
+                {
+                    "date": 1731123261226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,5 +45,6 @@\n                 break;\n             }\n         }\n     }\n-}\n\\ No newline at end of file\n+}\n+\n"
+                },
+                {
+                    "date": 1731123268391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,4 +47,5 @@\n         }\n     }\n }\n \n+fn main() {\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123275548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,5 +47,5 @@\n         }\n     }\n }\n \n-fn main() {\n\\ No newline at end of file\n+fn main() \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123283042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,5 +47,16 @@\n         }\n     }\n }\n \n-fn main() \n\\ No newline at end of file\n+fn main() {\n+    // 创建一个LockFreeStack实例，用于存储整数类型\n+    let stack = LockFreeStack::<i32> {\n+        head: AtomicPtr::new(std::ptr::null_mut()),\n+    };\n+\n+    // 在多个线程中同时调用push方法，向栈中添加元素\n+    let handles: Vec<_> = (0..10).map(|i| {\n+        let stack = &stack;\n+        std::thread::spawn( )\n+    })\n+}}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123289092,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,7 +56,7 @@\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n-        std::thread::spawn( )\n+        std::thread::spawn()\n     })\n }}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123297059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,6 +57,6 @@\n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n         std::thread::spawn()\n-    })\n+    });\n }}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123321304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,7 +56,7 @@\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n-        std::thread::spawn()\n+        std::thread::spawn({})\n     });\n\\ No newline at end of file\n-}}\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123328535,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,7 +56,9 @@\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n-        std::thread::spawn({})\n+        std::thread::spawn({move || {\n+            stack.push(i);\n+        })\n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123336060,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,7 +58,7 @@\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n         std::thread::spawn({move || {\n             stack.push(i);\n-        })\n+        });\n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123342991,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,6 +59,9 @@\n         let stack = &stack;\n         std::thread::spawn({move || {\n             stack.push(i);\n         });\n+    }).collect();\n+\n+    // 等待所有线程完成\n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123349013,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,6 +62,8 @@\n         });\n     }).collect();\n \n     // 等待所有线程完成\n+    for handle in handles {\n+        handle.join().unwrap();\n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123357248,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,6 +64,8 @@\n \n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n+        println!(\"Thread finished\");\n+        \n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123363813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,7 +65,11 @@\n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n+        stack.head.load(Ordering::Relaxed).map(|ptr| unsafe {\n+            // 释放栈中的元素\n+            Box::from_raw(ptr);\n+        });\n         \n     });\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123372439,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,7 +69,7 @@\n         stack.head.load(Ordering::Relaxed).map(|ptr| unsafe {\n             // 释放栈中的元素\n             Box::from_raw(ptr);\n         });\n-        \n-    });\n+        println!(\"Stack head freed\");\n+    }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123378307,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,5 +71,8 @@\n             Box::from_raw(ptr);\n         });\n         println!(\"Stack head freed\");\n     }\n+\n+    // 栈中元素应该全部被释放完毕\n+    \n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123399575,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n     let handles: Vec<_> = (0..10).map(|i| {\n         let stack = &stack;\n         std::thread::spawn({move || {\n             stack.push(i);\n-        });\n+        }});\n     }).collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n@@ -73,6 +73,6 @@\n         println!(\"Stack head freed\");\n     }\n \n     // 栈中元素应该全部被释放完毕\n-    \n+    assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731123408446,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,14 +34,13 @@\n                 (*new_ptr).next = head;\n             }\n \n             // 尝试使用CAS更新头节点指针为新节点的指针\n-            if self.head.compare_exchange(\n-                head,\n-                new_ptr,\n-                Ordering::Release,\n-                Ordering::Relaxed\n-            ).is_ok() {\n+            if self\n+                .head\n+                .compare_exchange(head, new_ptr, Ordering::Release, Ordering::Relaxed)\n+                .is_ok()\n+            {\n                 // 如果更新成功，则退出循环\n                 break;\n             }\n         }\n@@ -54,14 +53,18 @@\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n-    let handles: Vec<_> = (0..10).map(|i| {\n-        let stack = &stack;\n-        std::thread::spawn({move || {\n-            stack.push(i);\n-        }});\n-    }).collect();\n+    let handles: Vec<_> = (0..10)\n+        .map(|i| {\n+            let stack = &stack;\n+            std::thread::spawn({\n+                move || {\n+                    stack.push(i);\n+                }\n+            });\n+        })\n+        .collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n@@ -74,5 +77,5 @@\n     }\n \n     // 栈中元素应该全部被释放完毕\n     assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n-}\n\\ No newline at end of file\n+}\n"
+                },
+                {
+                    "date": 1731123470319,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,8 +68,9 @@\n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n+        \n         stack.head.load(Ordering::Relaxed).map(|ptr| unsafe {\n             // 释放栈中的元素\n             Box::from_raw(ptr);\n         });\n"
+                },
+                {
+                    "date": 1731123582689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n-\n+u\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n@@ -68,9 +68,9 @@\n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n-        \n+\n         stack.head.load(Ordering::Relaxed).map(|ptr| unsafe {\n             // 释放栈中的元素\n             Box::from_raw(ptr);\n         });\n"
+                },
+                {
+                    "date": 1731123588079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n-u\n+use std::boxed::Box;\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123594154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n+use \n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123600519,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n-use \n+use std::ptr;\n+use\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123620761,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n use std::ptr;\n-use\n+use std::mem;\n+u\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123629654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n use std::ptr;\n use std::mem;\n-u\n+use std\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123634770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n use std::ptr;\n use std::mem;\n-use std\n+use std::thread\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123652883,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,10 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n use std::ptr;\n use std::mem;\n-use std::thread\n+use std::thread::;\n+\n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n     head: AtomicPtr<Node<T>>,\n"
+                },
+                {
+                    "date": 1731123698611,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n use std::ptr;\n use std::mem;\n-use std::thread::;\n+use std::thread::JoinHandle;\n \n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n     // 栈的头节点，使用原子指针确保线程安全\n@@ -65,9 +65,9 @@\n                 move || {\n                     stack.push(i);\n                 }\n             });\n-        })\n+    \n         .collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n"
+                },
+                {
+                    "date": 1731123732580,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,11 +64,10 @@\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n-            });\n-    \n-        .collect();\n+            })\n+        }.collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n"
+                },
+                {
+                    "date": 1731123743093,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,9 +65,9 @@\n                 move || {\n                     stack.push(i);\n                 }\n             })\n-        }.collect();\n+        .collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n         handle.join().unwrap();\n"
+                },
+                {
+                    "date": 1731123759979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,10 +57,9 @@\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n-    let handles: Vec<_> = (0..10)\n-        .map(|i| {\n+    let handles: Vec<_> = (0..10).map(|i| {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731123770982,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,5 +80,5 @@\n     }\n \n     // 栈中元素应该全部被释放完毕\n     assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n-}\n+}}\n"
+                },
+                {
+                    "date": 1731123776761,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,5 +80,5 @@\n     }\n \n     // 栈中元素应该全部被释放完毕\n     assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n-}}\n+}\n"
+                },
+                {
+                    "date": 1731123793328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,9 +63,9 @@\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n-            })\n+            })}\n         .collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n"
+                },
+                {
+                    "date": 1731123812961,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,9 +63,10 @@\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n-            })}\n+            })\n+        })\n         .collect();\n \n     // 等待所有线程完成\n     for handle in handles {\n"
+                },
+                {
+                    "date": 1731123905784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -72,12 +72,9 @@\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n \n-        stack.head.load(Ordering::Relaxed).map(|ptr| unsafe {\n-            // 释放栈中的元素\n-            Box::from_raw(ptr);\n-        });\n+        stack.head.load(Ordering::Relaxed)\n         println!(\"Stack head freed\");\n     }\n \n     // 栈中元素应该全部被释放完毕\n"
+                },
+                {
+                    "date": 1731123910928,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -72,9 +72,9 @@\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n \n-        stack.head.load(Ordering::Relaxed)\n+        stack.head.load(Ordering::Relaxed).m\n         println!(\"Stack head freed\");\n     }\n \n     // 栈中元素应该全部被释放完毕\n"
+                },
+                {
+                    "date": 1731123920743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -72,9 +72,8 @@\n     for handle in handles {\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n \n-        stack.head.load(Ordering::Relaxed).m\n         println!(\"Stack head freed\");\n     }\n \n     // 栈中元素应该全部被释放完毕\n"
+                },
+                {
+                    "date": 1731123929276,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,8 +73,9 @@\n         handle.join().unwrap();\n         println!(\"Thread finished\");\n \n         println!(\"Stack head freed\");\n+        unsafe {\n     }\n \n     // 栈中元素应该全部被释放完毕\n     assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n"
+                },
+                {
+                    "date": 1731123980950,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n-    let handles: Vec<_> = (0..10).map(|i| {\n+    let handles: Vec<_> = (0..10).map(mo|i| {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n@@ -74,8 +74,10 @@\n         println!(\"Thread finished\");\n \n         println!(\"Stack head freed\");\n         unsafe {\n+            drop(Box::from_raw(stack.head.load(Ordering::Relaxed)));\n+        }\n     }\n \n     // 栈中元素应该全部被释放完毕\n     assert_eq!(stack.head.load(Ordering::Relaxed), std::ptr::null_mut());\n"
+                },
+                {
+                    "date": 1731123989899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n-    let handles: Vec<_> = (0..10).map(mo|i| {\n+    let handles: Vec<_> = (0..10).map(|i| move {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731124002909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n-use std::sync::atomic::{AtomicPtr, Ordering};\n use std::boxed::Box;\n+use std::mem;\n use std::ptr;\n-use std::mem;\n+use std::sync::atomic::{AtomicPtr, Ordering};\n use std::thread::JoinHandle;\n \n // 无锁栈结构，用于在多线程环境中安全地共享和修改栈\n struct LockFreeStack<T> {\n@@ -57,9 +57,10 @@\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n-    let handles: Vec<_> = (0..10).map(|i| move {\n+    let handles: Vec<_> = (0..10)\n+        .map(|i| {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731124012865,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n-        .map(|i| {\n+        .map(|i| mo{\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731124020635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n-        .map(|i| mo{\n+        .map(|i| {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731124027256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n     };\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n-        .map(|i| {\n+        .map(move |i| {\n             let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n"
+                },
+                {
+                    "date": 1731124039317,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,9 @@\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n-            let stack = &stack;\n+            // let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n"
+                },
+                {
+                    "date": 1731124047497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,9 @@\n \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n-            // let stack = &stack;\n+            let stack = &stack;\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n"
+                },
+                {
+                    "date": 1731124055043,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,8 +56,9 @@\n     let stack = LockFreeStack::<i32> {\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n+    le\n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n             let stack = &stack;\n"
+                },
+                {
+                    "date": 1731124060708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n     let stack = LockFreeStack::<i32> {\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n-    le\n+    let \n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n             let stack = &stack;\n"
+                },
+                {
+                    "date": 1731124068588,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n     let stack = LockFreeStack::<i32> {\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n-    let \n+    let s\n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n             let stack = &stack;\n"
+                },
+                {
+                    "date": 1731124074867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n     let stack = LockFreeStack::<i32> {\n         head: AtomicPtr::new(std::ptr::null_mut()),\n     };\n \n-    let as \n+    let as\n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n             let stack = &stack;\n"
+                },
+                {
+                    "date": 1731124134995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,9 +61,9 @@\n     let stack_ar = Arc::new(stack);\n     // 在多个线程中同时调用push方法，向栈中添加元素\n     let handles: Vec<_> = (0..10)\n         .map(move |i| {\n-            let stack = ;\n+            let stack = stack_ar.clone();\n             std::thread::spawn({\n                 move || {\n                     stack.push(i);\n                 }\n"
+                }
+            ],
+            "date": 1731122498686,
+            "name": "Commit-0",
+            "content": "use std::sync::atomic::{AtomicPtr, Ordering};\n\nstruct LockFreeStack<T> {\n    head: AtomicPtr<Node<T>>,\n}\n\nstruct Node<T> {\n    next: *mut Node<T>,\n    value: T,\n}\n\nimpl<T> LockFreeStack<T> {\n    fn push(&self, value: T) {\n        let new_node = Box::new(Node {\n            next: std::ptr::null_mut(),\n            value,\n        });\n        let new_ptr = Box::into_raw(new_node);\n\n        loop {\n            let head = self.head.load(Ordering::Relaxed);\n            unsafe {\n                (*new_ptr).next = head;\n            }\n\n            if self.head.compare_exchange(\n                head,\n                new_ptr,\n                Ordering::Release,\n                Ordering::Relaxed\n            ).is_ok() {\n                break;\n            }\n        }\n    }\n}"
+        }
+    ]
+}

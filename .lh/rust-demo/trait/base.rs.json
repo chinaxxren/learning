@@ -1,0 +1,26 @@
+{
+    "sourceFile": "rust-demo/trait/base.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731503267005,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731503314552,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,7 +30,8 @@\n fn main() {\n     let s = MyStruct;\n     let foo: &dyn Foo = &s;\n     foo.foo();\n+    \n     let base: &dyn Base = foo.as_base();\n     base.base();\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731503323486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-rait Base {\n+trait Base {\n     fn base(&self) {\n         println!(\"base...\");\n     }\n }\n"
+                }
+            ],
+            "date": 1731503267004,
+            "name": "Commit-0",
+            "content": "rait Base {\n    fn base(&self) {\n        println!(\"base...\");\n    }\n}\n\ntrait AsBase {\n    fn as_base(&self) -> &dyn Base;\n}\n\n// blanket implementation\nimpl<T: Base> AsBase for T {\n    fn as_base(&self) -> &dyn Base {\n        self\n    }\n}\n\ntrait Foo: AsBase {\n    fn foo(&self) {\n        println!(\"foo..\");\n    }\n}\n\n#[derive(Debug)]\nstruct MyStruct;\n\nimpl Foo for MyStruct {}\nimpl Base for MyStruct {}\n\nfn main() {\n    let s = MyStruct;\n    let foo: &dyn Foo = &s;\n    foo.foo();\n    let base: &dyn Base = foo.as_base();\n    base.base();\n}"
+        }
+    ]
+}

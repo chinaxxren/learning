@@ -1,0 +1,46 @@
+{
+    "sourceFile": "rust-demo/file/3_monitor.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1731134479866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731134552693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n+use std::collections::HashMap;\n use std::fs::{self, FileType, Metadata};\n use std::time::{SystemTime, UNIX_EPOCH};\n-use std::collections::HashMap;\n \n struct FileMonitor {\n     files: HashMap<String, FileInfo>,\n }\n@@ -20,13 +20,16 @@\n     }\n \n     fn add_file(&mut self, path: &str) -> io::Result<()> {\n         let metadata = fs::metadata(path)?;\n-        self.files.insert(path.to_string(), FileInfo {\n-            size: metadata.len(),\n-            modified: metadata.modified()?,\n-            file_type: metadata.file_type(),\n-        });\n+        self.files.insert(\n+            path.to_string(),\n+            FileInfo {\n+                size: metadata.len(),\n+                modified: metadata.modified()?,\n+                file_type: metadata.file_type(),\n+            },\n+        );\n         Ok(())\n     }\n \n     fn check_changes(&self, path: &str) -> io::Result<Vec<String>> {\n@@ -34,18 +37,18 @@\n         if let Some(old_info) = self.files.get(path) {\n             let metadata = fs::metadata(path)?;\n \n             if metadata.len() != old_info.size {\n-                changes.push(\"File size changed\".to_string());\n+                changes.push(\"文件大小已更改\".to_string());\n             }\n \n             if metadata.modified()? != old_info.modified {\n-                changes.push(\"File was modified\".to_string());\n+                changes.push(\"文件被修改\".to_string());\n             }\n \n             if metadata.file_type() != old_info.file_type {\n-                changes.push(\"File type changed\".to_string());\n+                changes.push(\"文件类型已更改\".to_string());\n             }\n         }\n\\ No newline at end of file\n         Ok(changes)\n     }\n-}\n+}\n"
+                },
+                {
+                    "date": 1731134560748,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,5 +50,7 @@\n             }\n         }\n         Ok(changes)\n     }\n-}\n\\ No newline at end of file\n+}\n+\n+fn\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731134566233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,5 +52,7 @@\n         Ok(changes)\n     }\n }\n \n-fn\n\\ No newline at end of file\n+fn main() -> io::Result<()> {\n+    \n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731134643825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n use std::collections::HashMap;\n use std::fs::{self, FileType, Metadata};\n use std::time::{SystemTime, UNIX_EPOCH};\n-\n+use\n struct FileMonitor {\n     files: HashMap<String, FileInfo>,\n }\n \n@@ -53,6 +53,14 @@\n     }\n }\n \n fn main() -> io::Result<()> {\n-    \n+    let mut monitor = FileMonitor::new();\n+    monitor.add_file(\"test.txt\")?;\n+\n+    let changes = monitor.check_changes(\"test.txt\")?;\n+    for change in changes {\n+        println!(\"{}\", change);\n+    }\n+\n+    Ok(())\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731134652472,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n use std::collections::HashMap;\n use std::fs::{self, FileType, Metadata};\n use std::time::{SystemTime, UNIX_EPOCH};\n-use\n+use std::io;\n+\n struct FileMonitor {\n     files: HashMap<String, FileInfo>,\n }\n \n"
+                },
+                {
+                    "date": 1731134687373,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n use std::collections::HashMap;\n use std::fs::{self, FileType, Metadata};\n-use std::time::{SystemTime, UNIX_EPOCH};\n+use std::time::{SystemTime};\n use std::io;\n \n struct FileMonitor {\n     files: HashMap<String, FileInfo>,\n"
+                },
+                {
+                    "date": 1731134695656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n use std::collections::HashMap;\n-use std::fs::{self, FileType, Metadata};\n-use std::time::{SystemTime};\n+use std::fs::{self, FileType};\n+use std::time::SystemTime;\n use std::io;\n \n struct FileMonitor {\n     files: HashMap<String, FileInfo>,\n"
+                }
+            ],
+            "date": 1731134479866,
+            "name": "Commit-0",
+            "content": "use std::fs::{self, FileType, Metadata};\nuse std::time::{SystemTime, UNIX_EPOCH};\nuse std::collections::HashMap;\n\nstruct FileMonitor {\n    files: HashMap<String, FileInfo>,\n}\n\nstruct FileInfo {\n    size: u64,\n    modified: SystemTime,\n    file_type: FileType,\n}\n\nimpl FileMonitor {\n    fn new() -> Self {\n        Self {\n            files: HashMap::new(),\n        }\n    }\n\n    fn add_file(&mut self, path: &str) -> io::Result<()> {\n        let metadata = fs::metadata(path)?;\n        self.files.insert(path.to_string(), FileInfo {\n            size: metadata.len(),\n            modified: metadata.modified()?,\n            file_type: metadata.file_type(),\n        });\n        Ok(())\n    }\n\n    fn check_changes(&self, path: &str) -> io::Result<Vec<String>> {\n        let mut changes = Vec::new();\n        if let Some(old_info) = self.files.get(path) {\n            let metadata = fs::metadata(path)?;\n\n            if metadata.len() != old_info.size {\n                changes.push(\"File size changed\".to_string());\n            }\n\n            if metadata.modified()? != old_info.modified {\n                changes.push(\"File was modified\".to_string());\n            }\n\n            if metadata.file_type() != old_info.file_type {\n                changes.push(\"File type changed\".to_string());\n            }\n        }\n        Ok(changes)\n    }\n}"
+        }
+    ]
+}

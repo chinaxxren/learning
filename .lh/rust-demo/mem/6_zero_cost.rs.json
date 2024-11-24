@@ -1,0 +1,54 @@
+{
+    "sourceFile": "rust-demo/mem/6_zero_cost.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 9,
+            "patches": [
+                {
+                    "date": 1731120276532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731120282438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n-fn zero_cost_abstractions() {\n+\n+fn main() {\n     // 使用size_of优化泛型代码\n     fn is_zero_sized<T>() -> bool {\n         mem::size_of::<T>() == 0\n     }\n"
+                },
+                {
+                    "date": 1731120355953,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+use std::mem;\n \n fn main() {\n     // 使用size_of优化泛型代码\n     fn is_zero_sized<T>() -> bool {\n@@ -9,5 +10,6 @@\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n+    \n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120455824,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,9 @@\n     assert!(is_zero_sized::<()>());\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n+\n+    \n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n-    \n+    assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120463751,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     assert!(is_zero_sized::<()>());\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n+    let size_of_i32 = mem::size_of::<i32>();\n \n-    \n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120471648,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     assert!(is_zero_sized::<()>());\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n-    let size_of_i32 = mem::size_of::<i32>();\n+    let uni = mem::size_of::<()>();\n \n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120478406,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     assert!(is_zero_sized::<()>());\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n-    let uni = mem::size_of::<()>();\n+    let union = mem::size_of::<()>();\n \n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120484263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,8 @@\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n     let union = mem::size_of::<()>();\n-\n+    assert!()\n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120492059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,8 @@\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n     let union = mem::size_of::<()>();\n-    assert!()\n+    ass\n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731120501585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     assert!(!is_zero_sized::<i32>());\n \n     // 编译时计算大小\n     let union = mem::size_of::<()>();\n-    ass\n+    assert_eq!(union, 0);\n+    \n     const SIZE_OF_I32: usize = mem::size_of::<i32>();\n     assert_eq!(SIZE_OF_I32, 4);\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1731120276532,
+            "name": "Commit-0",
+            "content": "fn zero_cost_abstractions() {\n    // 使用size_of优化泛型代码\n    fn is_zero_sized<T>() -> bool {\n        mem::size_of::<T>() == 0\n    }\n\n    assert!(is_zero_sized::<()>());\n    assert!(!is_zero_sized::<i32>());\n\n    // 编译时计算大小\n    const SIZE_OF_I32: usize = mem::size_of::<i32>();\n}"
+        }
+    ]
+}

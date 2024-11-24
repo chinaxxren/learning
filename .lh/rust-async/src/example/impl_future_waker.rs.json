@@ -1,0 +1,42 @@
+{
+    "sourceFile": "rust-async/src/example/impl_future_waker.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1730898979958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730898985190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n }\n \n // todo: 在 main 函数中，我们初始化了一个 Future 并调用了其 .await，在异步的函数中，我们可以在任何实现了 Future Trait 的值上调用 .await。\n \n-\n+#[tokio::main]\n async fn main() {\n     // let when = Instant::now() + Duration::from_millis(10);\n     let when = Instant::now() + Duration::from_secs(5); // 等待5秒\n     let future = Delay { when };\n"
+                },
+                {
+                    "date": 1730911443760,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         } else {\n             // get a handle to the waker for the current task\n             let waker = cx.waker().clone();\n             let when = self.when;\n-\n+            \n             // spawn a timer thread\n             // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n             thread::spawn(move || {\n                 let now = Instant::now();\n"
+                },
+                {
+                    "date": 1730911449672,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         } else {\n             // get a handle to the waker for the current task\n             let waker = cx.waker().clone();\n             let when = self.when;\n-            \n+            println!(\"\")\n             // spawn a timer thread\n             // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n             thread::spawn(move || {\n                 let now = Instant::now();\n"
+                },
+                {
+                    "date": 1730911455540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         } else {\n             // get a handle to the waker for the current task\n             let waker = cx.waker().clone();\n             let when = self.when;\n-            println!(\"\")\n+            println!(\"waker \")\n             // spawn a timer thread\n             // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n             thread::spawn(move || {\n                 let now = Instant::now();\n"
+                },
+                {
+                    "date": 1730911461218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         } else {\n             // get a handle to the waker for the current task\n             let waker = cx.waker().clone();\n             let when = self.when;\n-            println!(\"waker \")\n+            println!(\"waker is: {:?}, when is: {:?}\");\n             // spawn a timer thread\n             // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n             thread::spawn(move || {\n                 let now = Instant::now();\n"
+                },
+                {
+                    "date": 1730911476223,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         } else {\n             // get a handle to the waker for the current task\n             let waker = cx.waker().clone();\n             let when = self.when;\n-            println!(\"waker is: {:?}, when is: {:?}\");\n+            println!(\"waker );\n             // spawn a timer thread\n             // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n             thread::spawn(move || {\n                 let now = Instant::now();\n"
+                }
+            ],
+            "date": 1730898979958,
+            "name": "Commit-0",
+            "content": "use std::future::Future;\nuse std::pin::Pin;\nuse std::task::{Context, Poll};\nuse std::thread;\nuse std::time::{Duration, Instant};\n\nstruct Delay {\n    when: Instant,\n}\n\nimpl Future for Delay {\n    type Output = &'static str;\n\n    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {\n        if Instant::now() > self.when {\n            println!(\"Hello world!\");\n            Poll::Ready(\"done\")\n        } else {\n            // get a handle to the waker for the current task\n            let waker = cx.waker().clone();\n            let when = self.when;\n\n            // spawn a timer thread\n            // todo: 建立一个线程专门用于监听，做事件驱动， 符合条件之后，再回到 waker的线程 唤醒它\n            thread::spawn(move || {\n                let now = Instant::now();\n\n                if now < when {\n                    thread::sleep(when - now);\n                }\n\n                waker.wake(); // todo: 现在，当等待的时间到达后，调用的任务会收到通知，然后执行器就能够确认该任务能够继续调度执行了。\n            });\n\n            Poll::Pending\n        }\n    }\n}\n\n// todo: 在 main 函数中，我们初始化了一个 Future 并调用了其 .await，在异步的函数中，我们可以在任何实现了 Future Trait 的值上调用 .await。\n\n\nasync fn main() {\n    // let when = Instant::now() + Duration::from_millis(10);\n    let when = Instant::now() + Duration::from_secs(5); // 等待5秒\n    let future = Delay { when };\n\n    let out = future.await;\n    println!(\"out ------- {:?}\", out);\n}\n"
+        }
+    ]
+}

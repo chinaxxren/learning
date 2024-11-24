@@ -1,0 +1,94 @@
+{
+    "sourceFile": "tools/Cargo.toml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1732187559830,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1732187565245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-cap \n\\ No newline at end of file\n+cap = \"\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187570477,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-cap = \"\"\n\\ No newline at end of file\n+cap = \"0.1\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187577501,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-cap = \"0.1\"\n\\ No newline at end of file\n+cap = \"0.1.2\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187705720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-cap = \"0.1.2\"\n\\ No newline at end of file\n+clap = \"0.1.2\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187710907,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-clap = \"0.1.2\"\n\\ No newline at end of file\n+clap = \"0.4.5\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187717179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-clap = \"0.4.5\"\n\\ No newline at end of file\n+clap = \"0.5.\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187852837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,5 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-clap = \"0.5.\"\n\\ No newline at end of file\n+clap = \"4.5.21\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187886619,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,6 @@\n version = \"0.1.0\"\n edition = \"2021\"\n \n [dependencies]\n-clap = \"4.5.21\"\n\\ No newline at end of file\n+clap = \"4.5.21\"\n+tokio\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187898380,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n edition = \"2021\"\n \n [dependencies]\n clap = \"4.5.21\"\n-tokio\n\\ No newline at end of file\n+tokio ={ workspace = true }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187953580,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n edition = \"2021\"\n \n [dependencies]\n clap = \"4.5.21\"\n-tokio ={ workspace = true }\n\\ No newline at end of file\n+tokio ={ workspace = true }\n"
+                },
+                {
+                    "date": 1732187959427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,4 +5,5 @@\n \n [dependencies]\n clap = \"4.5.21\"\n tokio ={ workspace = true }\n+t\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187967230,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,5 @@\n \n [dependencies]\n clap = \"4.5.21\"\n tokio ={ workspace = true }\n-t\n\\ No newline at end of file\n+tr\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732187976199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,5 @@\n edition = \"2021\"\n \n [dependencies]\n clap = \"4.5.21\"\n-tokio ={ workspace = true }\n-tr\n\\ No newline at end of file\n+tokio ={ workspace = true \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188110224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,6 @@\n edition = \"2021\"\n \n [dependencies]\n clap = \"4.5.21\"\n-tokio ={ workspace = true \n\\ No newline at end of file\n+tokio ={ workspace = true }\n+tracing - \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188116493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,6 @@\n edition = \"2021\"\n \n [dependencies]\n clap = \"4.5.21\"\n-tokio ={ workspace = true }\n-tracing - \n\\ No newline at end of file\n+tokio = { workspace = true }\n+tracing = {} \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188125940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,6 @@\n \n [dependencies]\n clap = \"4.5.21\"\n tokio = { workspace = true }\n-tracing = {} \n\\ No newline at end of file\n+tracing = { workspace = true }\n+tracing-subscriber = { version = \"0.3.10\", features = [\"fmt\", \"env-filter\", \"json\"] }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188131940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,5 +6,5 @@\n [dependencies]\n clap = \"4.5.21\"\n tokio = { workspace = true }\n tracing = { workspace = true }\n-tracing-subscriber = { version = \"0.3.10\", features = [\"fmt\", \"env-filter\", \"json\"] }\n\\ No newline at end of file\n+tracing-subscriber = {  }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188137116,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,5 +6,5 @@\n [dependencies]\n clap = \"4.5.21\"\n tokio = { workspace = true }\n tracing = { workspace = true }\n-tracing-subscriber = {  }\n\\ No newline at end of file\n+tracing-subscriber = { workspace = true }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732188936491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,5 +6,5 @@\n [dependencies]\n clap = \"4.5.21\"\n tokio = { workspace = true }\n tracing = { workspace = true }\n-tracing-subscriber = { workspace = true }\n\\ No newline at end of file\n+tracing-subscriber = { workspace = true }\n"
+                }
+            ],
+            "date": 1732187559830,
+            "name": "Commit-0",
+            "content": "[package]\nname = \"tools\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\ncap "
+        }
+    ]
+}

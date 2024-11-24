@@ -1,0 +1,78 @@
+{
+    "sourceFile": "rust-demo/mem/10_pool.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 15,
+            "patches": [
+                {
+                    "date": 1731121986304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731121993312,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+s\n struct Pool<T> {\n     items: Vec<T>,\n }\n \n"
+                },
+                {
+                    "date": 1731122000344,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-s\n+std::mem::take\n struct Pool<T> {\n     items: Vec<T>,\n }\n \n"
+                },
+                {
+                    "date": 1731122007617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-std::mem::take\n+std::mem::\n struct Pool<T> {\n     items: Vec<T>,\n }\n \n"
+                },
+                {
+                    "date": 1731122015755,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-std::mem::\n+use std::mem;\n struct Pool<T> {\n     items: Vec<T>,\n }\n \n"
+                },
+                {
+                    "date": 1731122021207,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n use std::mem;\n+\n struct Pool<T> {\n     items: Vec<T>,\n }\n \n@@ -15,5 +16,5 @@\n \n     fn return_item(&mut self, item: T) {\n         self.items.push(item);\n     }\n-}\n\\ No newline at end of file\n+}\n"
+                },
+                {
+                    "date": 1731122027437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,4 +17,8 @@\n     fn return_item(&mut self, item: T) {\n         self.items.push(item);\n     }\n }\n+\n+ fn main() {\n+    \n+ }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731122032918,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,7 @@\n     }\n }\n \n  fn main() {\n-    \n+    let mut pool = Pool { items: vec![] };\n+    let item1 = pool.get();\n  }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731122038440,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,5 +21,9 @@\n \n  fn main() {\n     let mut pool = Pool { items: vec![] };\n     let item1 = pool.get();\n+    let item2 = pool.get();\n+    let item3 = pool.get();\n+    pool.return_item(item1);\n+    pool.return_item(item2);    \n  }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731122052021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,12 +18,13 @@\n         self.items.push(item);\n     }\n }\n \n- fn main() {\n+fn main() {\n     let mut pool = Pool { items: vec![] };\n     let item1 = pool.get();\n     let item2 = pool.get();\n     let item3 = pool.get();\n     pool.return_item(item1);\n-    pool.return_item(item2);    \n\\ No newline at end of file\n- }\n+    pool.return_item(item2);\n+    pool.return_item(item3);\n+}\n"
+                },
+                {
+                    "date": 1731122167786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     }\n }\n \n fn main() {\n-    let mut pool = Pool { items: vec![] };\n+    let mut pool = Pool { items: vec![1,2,3] };\n     let item1 = pool.get();\n     let item2 = pool.get();\n     let item3 = pool.get();\n     pool.return_item(item1);\n"
+                },
+                {
+                    "date": 1731122201448,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,5 +26,6 @@\n     let item3 = pool.get();\n     pool.return_item(item1);\n     pool.return_item(item2);\n     pool.return_item(item3);\n+    \n }\n"
+                },
+                {
+                    "date": 1731122282777,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,11 +21,12 @@\n \n fn main() {\n     let mut pool = Pool { items: vec![1,2,3] };\n     let item1 = pool.get();\n+    p\n     let item2 = pool.get();\n     let item3 = pool.get();\n     pool.return_item(item1);\n     pool.return_item(item2);\n     pool.return_item(item3);\n-    \n+    println!(\"{:?}\", pool.items);\n }\n"
+                },
+                {
+                    "date": 1731122289034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n \n fn main() {\n     let mut pool = Pool { items: vec![1,2,3] };\n     let item1 = pool.get();\n-    p\n+    println!(\"item1: {}\", item1)\n     let item2 = pool.get();\n     let item3 = pool.get();\n     pool.return_item(item1);\n     pool.return_item(item2);\n"
+                },
+                {
+                    "date": 1731122294902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     let mut pool = Pool { items: vec![1,2,3] };\n     let item1 = pool.get();\n     println!(\"item1: {}\", item1);\n     let item2 = pool.get();\n-    \n+    println!(\"item2: {}\", item2);\n     let item3 = pool.get();\n     pool.return_item(item1);\n     pool.return_item(item2);\n     pool.return_item(item3);\n"
+                },
+                {
+                    "date": 1731122304172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,9 @@\n     let item2 = pool.get();\n     println!(\"item2: {}\", item2);\n     let item3 = pool.get();\n     println!(\"item3: {}\", item3);\n+    println!(\"{:?}\", pool.items);\n     \n     pool.return_item(item1);\n     pool.return_item(item2);\n     pool.return_item(item3);\n"
+                }
+            ],
+            "date": 1731121986304,
+            "name": "Commit-0",
+            "content": "struct Pool<T> {\n    items: Vec<T>,\n}\n\nimpl<T: Default> Pool<T> {\n    fn get(&mut self) -> T {\n        if self.items.is_empty() {\n            T::default()\n        } else {\n            // 使用take避免额外的内存分配\n            mem::take(&mut self.items[0])\n        }\n    }\n\n    fn return_item(&mut self, item: T) {\n        self.items.push(item);\n    }\n}"
+        }
+    ]
+}

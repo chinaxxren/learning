@@ -1,0 +1,46 @@
+{
+    "sourceFile": "rust-demo/mem/5_transmute.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1731120023331,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731120029266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n-fn transmute_examples() {\n+\n+\n+fn main() {\n     // 危险但有用的类型转换\n     unsafe {\n         // 将i32转换为[u8; 4]\n         let num: i32 = 42;\n"
+                },
+                {
+                    "date": 1731120120367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,14 @@\n \n+use std::mem;\n \n fn main() {\n     // 危险但有用的类型转换\n     unsafe {\n         // 将i32转换为[u8; 4]\n         let num: i32 = 42;\n         let bytes: [u8; 4] = mem::transmute(num);\n-\n+        p\n         // 将裸指针转换为usize\n         let ptr: *const i32 = &42;\n         let addr: usize = mem::transmute(ptr);\n \n"
+                },
+                {
+                    "date": 1731120126696,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,10 @@\n     unsafe {\n         // 将i32转换为[u8; 4]\n         let num: i32 = 42;\n         let bytes: [u8; 4] = mem::transmute(num);\n-        p\n+        println!(\"bytes: {:?}\", bytes);\n+        \n         // 将裸指针转换为usize\n         let ptr: *const i32 = &42;\n         let addr: usize = mem::transmute(ptr);\n \n"
+                },
+                {
+                    "date": 1731120176978,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,13 @@\n         // 将i32转换为[u8; 4]\n         let num: i32 = 42;\n         let bytes: [u8; 4] = mem::transmute(num);\n         println!(\"bytes: {:?}\", bytes);\n-        \n+\n         // 将裸指针转换为usize\n         let ptr: *const i32 = &42;\n         let addr: usize = mem::transmute(ptr);\n-\n+        prin\n         // 将生命周期标记去除（极其危险！）\n         let string = \"hello\";\n         let static_str: &'static str = mem::transmute(string);\n     }\n"
+                },
+                {
+                    "date": 1731120206358,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,11 @@\n \n         // 将裸指针转换为usize\n         let ptr: *const i32 = &42;\n         let addr: usize = mem::transmute(ptr);\n-        prin\n+        println!(\"addr: {:#x}\", addr);\n+\n+        \n         // 将生命周期标记去除（极其危险！）\n         let string = \"hello\";\n         let static_str: &'static str = mem::transmute(string);\n     }\n"
+                },
+                {
+                    "date": 1731120213147,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,14 +8,15 @@\n         let num: i32 = 42;\n         let bytes: [u8; 4] = mem::transmute(num);\n         println!(\"bytes: {:?}\", bytes);\n \n+        \n         // 将裸指针转换为usize\n         let ptr: *const i32 = &42;\n         let addr: usize = mem::transmute(ptr);\n         println!(\"addr: {:#x}\", addr);\n \n-        \n+\n         // 将生命周期标记去除（极其危险！）\n         let string = \"hello\";\n         let static_str: &'static str = mem::transmute(string);\n     }\n"
+                },
+                {
+                    "date": 1731120219064,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,6 +18,7 @@\n \n         // 将生命周期标记去除（极其危险！）\n         let string = \"hello\";\n         let static_str: &'static str = mem::transmute(string);\n+        println!(\"static_str: {}\", static_str);\n     }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1731120023331,
+            "name": "Commit-0",
+            "content": "fn transmute_examples() {\n    // 危险但有用的类型转换\n    unsafe {\n        // 将i32转换为[u8; 4]\n        let num: i32 = 42;\n        let bytes: [u8; 4] = mem::transmute(num);\n\n        // 将裸指针转换为usize\n        let ptr: *const i32 = &42;\n        let addr: usize = mem::transmute(ptr);\n\n        // 将生命周期标记去除（极其危险！）\n        let string = \"hello\";\n        let static_str: &'static str = mem::transmute(string);\n    }\n}"
+        }
+    ]
+}

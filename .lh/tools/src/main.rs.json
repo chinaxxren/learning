@@ -1,0 +1,218 @@
+{
+    "sourceFile": "tools/src/main.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 50,
+            "patches": [
+                {
+                    "date": 1732187624874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1732187631977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n+use cap;\n \n-\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732187733113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-use cap;\n+use c;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732187770893,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-use c;\n+use clap;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n@@ -16,8 +16,13 @@\n     #[clap(long)]\n     port: u16,\n }\n \n+async fn main() -> Result<(), Box<dyn Error>> {\n+    // 初始化日志订阅器\n+    let _ = tracing_subscriber::fmt()\n+        .with_env_filter(EnvFilter::from_default_env())\n+        .try_init();\n \n-fn main() {\n+    let opt = Opt::parse();\n     println!(\"Hello, world!\");\n }\n"
+                },
+                {
+                    "date": 1732187781263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     #[clap(long)]\n     port: u16,\n }\n \n-async fn main() -> Result<(), Box<dyn Error>> {\n+fn main() {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732187787866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use clap;\n-\n+use tr\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732187793138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use clap;\n-use tr\n+use tracing_subscriber::fm\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732187801809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n use clap;\n-use tracing_subscriber::fm\n+use tracing_subscriber;\n+\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n@@ -18,9 +19,9 @@\n }\n \n fn main() {\n     // 初始化日志订阅器\n-    let _ = tracing_subscriber::fmt()\n+    let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n"
+                },
+                {
+                    "date": 1732187812612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use clap;\n-use tracing_subscriber;\n+use tracing_subscriber：：;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732187819836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use clap;\n-use tracing_subscriber：：;\n+use tracing_subscriber;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732187825212,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n use clap;\n-use tracing_subscriber;\n+use tracing_subscriber::fmt;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732187906099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n     #[clap(long)]\n     port: u16,\n }\n \n+\n fn main() {\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n"
+                },
+                {
+                    "date": 1732187914368,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,10 +17,10 @@\n     #[clap(long)]\n     port: u16,\n }\n \n-\n-fn main() {\n+#[tokio::main]\n+afn main() {\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732187926248,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,13 +18,15 @@\n     port: u16,\n }\n \n #[tokio::main]\n-afn main() {\n+async fn main() {\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n     println!(\"Hello, world!\");\n+\n+    \n }\n"
+                },
+                {
+                    "date": 1732187932640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,15 +18,15 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() {\n+async fn main() -{\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n     println!(\"Hello, world!\");\n \n-    \n+    Ok(())\n }\n"
+                },
+                {
+                    "date": 1732187938367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -{\n+async fn main() -> R{\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732187943767,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> R{\n+async fn main() -> Result<(), _> {\n     // 初始化日志订阅器\n     let _ = fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188150481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n use clap;\n use tracing_subscriber::fmt;\n-\n+use to\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732188160504,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n use clap;\n use tracing_subscriber::fmt;\n-use to\n+use tokio::;\n+\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732188167407,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n use clap;\n use tracing_subscriber::fmt;\n-use tokio::;\n+use tokio::main;\n+use\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732188176490,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n use clap;\n use tracing_subscriber::fmt;\n use tokio::main;\n-use\n+use tracing::info;\n+use tracing_subscriber::fmt;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732188190398,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n \n #[tokio::main]\n async fn main() -> Result<(), _> {\n     // 初始化日志订阅器\n-    let _ = fmt()\n+    let _ = tracing_subscriberfmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n"
+                },
+                {
+                    "date": 1732188219939,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,11 +21,11 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), _> {\n+async fn main() -> Result<(), io> {\n     // 初始化日志订阅器\n-    let _ = tracing_subscriberfmt()\n+    let _ = tracing_subscriber::fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n"
+                },
+                {
+                    "date": 1732188230640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n-\n+use \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n@@ -21,9 +21,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), io> {\n+async fn main() -> Result<(), io::Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_env_filter(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188236169,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,10 @@\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n-use \n+use std::io;\n+\n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n struct Opt {\n"
+                },
+                {
+                    "date": 1732188297490,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n #[tokio::main]\n async fn main() -> Result<(), io::Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n-        .with_env_filter(EnvFilter::from_default_env())\n+        .with_file(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n     println!(\"Hello, world!\");\n"
+                },
+                {
+                    "date": 1732188315199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n+\n use std::io;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n"
+                },
+                {
+                    "date": 1732188321450,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n-\n+use tracing_subscriber::EnvFilter;\n use std::io;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n"
+                },
+                {
+                    "date": 1732188397630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-use clap;\n+use clap::p;\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n"
+                },
+                {
+                    "date": 1732188408969,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-use clap::p;\n+use clap::Parser;\n use tracing_subscriber::fmt;\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n"
+                },
+                {
+                    "date": 1732188436688,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n use tokio::main;\n use tracing::info;\n use tracing_subscriber::fmt;\n use tracing_subscriber::EnvFilter;\n-use std::io;\n+use std::error::Error;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732188442316,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), io::Error> {\n+async fn main() -> Result<(), Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188469499,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,7 @@\n use clap::Parser;\n+\n use tracing_subscriber::fmt;\n-use tokio::main;\n-use tracing::info;\n-use tracing_subscriber::fmt;\n use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n // 命令行参数结构体\n"
+                },
+                {
+                    "date": 1732188481231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n use clap::Parser;\n-\n-use tracing_subscriber::fmt;\n use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n // 命令行参数结构体\n"
+                },
+                {
+                    "date": 1732188637068,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), Error> {\n+async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188643194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), dyn Error> {\n+async fn main() -> Result<(), Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188662872,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,7 @@\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n \n     let opt = Opt::parse();\n-    println!(\"Hello, world!\");\n \n     Ok(())\n }\n"
+                },
+                {
+                    "date": 1732188738255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,6 +27,5 @@\n         .try_init();\n \n     let opt = Opt::parse();\n \n-    Ok(())\n }\n"
+                },
+                {
+                    "date": 1732188745210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,7 +25,6 @@\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n \n-    let opt = Opt::parse();\n-\n+    Opt::parse()\n }\n"
+                },
+                {
+                    "date": 1732188757780,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,6 +25,8 @@\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n \n-    Opt::parse()\n+    let opt = Opt::parse();\n+\n+    Ok(())\n }\n"
+                },
+                {
+                    "date": 1732188763408,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     port: u16,\n }\n \n #[tokio::main]\n-async fn main() -> Result<(), Error> {\n+async fn main() -> Result<(), dError> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188801951,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,27 +1,11 @@\n use clap::Parser;\n use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n-// 命令行参数结构体\n-#[derive(Debug, Parser)]\n-#[clap(name = \"libp2p relay\")]\n-struct Opt {\n-    /// 确定中继是否在 IPv6 或 IPv4 回环地址上监听。默认为 IPv4\n-    #[clap(long)]\n-    use_ipv6: Option<bool>,\n \n-    /// 用于生成确定性对等点 ID 的固定值\n-    #[clap(long)]\n-    secret_key_seed: u8,\n-\n-    /// 用于在所有接口上监听的端口\n-    #[clap(long)]\n-    port: u16,\n-}\n-\n #[tokio::main]\n-async fn main() -> Result<(), dError> {\n+async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n     let _ = tracing_subscriber::fmt()\n         .with_file(EnvFilter::from_default_env())\n         .try_init();\n"
+                },
+                {
+                    "date": 1732188811020,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-use clap::Parser;\n+\n use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n \n"
+                },
+                {
+                    "date": 1732189049171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,11 +5,11 @@\n \n #[tokio::main]\n async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n-    let _ = tracing_subscriber::fmt()\n-        .with_file(EnvFilter::from_default_env())\n-        .try_init();\n+    // let _ = tracing_subscriber::fmt()\n+    //     .with_file(EnvFilter::from_default_env())\n+    //     .try_init();\n \n     let opt = Opt::parse();\n \n     Ok(())\n"
+                },
+                {
+                    "date": 1732189079933,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n \n use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n-\n #[tokio::main]\n async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n     // let _ = tracing_subscriber::fmt()\n"
+                },
+                {
+                    "date": 1732189093798,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     // let _ = tracing_subscriber::fmt()\n     //     .with_file(EnvFilter::from_default_env())\n     //     .try_init();\n \n+    tracing_subscriber\n     let opt = Opt::parse();\n \n     Ok(())\n }\n"
+                },
+                {
+                    "date": 1732189099851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     // let _ = tracing_subscriber::fmt()\n     //     .with_file(EnvFilter::from_default_env())\n     //     .try_init();\n \n-    tracing_subscriber\n+    tracing_subscriber::fmt();\n     let opt = Opt::parse();\n \n     Ok(())\n }\n"
+                },
+                {
+                    "date": 1732189105869,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,10 @@\n     //     .with_file(EnvFilter::from_default_env())\n     //     .try_init();\n \n     tracing_subscriber::fmt();\n+\n+    // 解析命令行参数\n     let opt = Opt::parse();\n \n     Ok(())\n }\n"
+                },
+                {
+                    "date": 1732189137999,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n \n-use tracing_subscriber::EnvFilter;\n use std::error::Error;\n \n #[tokio::main]\n async fn main() -> Result<(), dyn Error> {\n"
+                },
+                {
+                    "date": 1732189161189,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n \n use std::error::Error;\n-\n+use opt\n #[tokio::main]\n async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n     // let _ = tracing_subscriber::fmt()\n"
+                },
+                {
+                    "date": 1732189169957,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n+mod opt;\n+use std::error::Error;\n+use opt::Opt;\n \n-use std::error::Error;\n-use opt\n #[tokio::main]\n async fn main() -> Result<(), dyn Error> {\n     // 初始化日志订阅器\n     // let _ = tracing_subscriber::fmt()\n"
+                }
+            ],
+            "date": 1732187624874,
+            "name": "Commit-0",
+            "content": "\n\n// 命令行参数结构体\n#[derive(Debug, Parser)]\n#[clap(name = \"libp2p relay\")]\nstruct Opt {\n    /// 确定中继是否在 IPv6 或 IPv4 回环地址上监听。默认为 IPv4\n    #[clap(long)]\n    use_ipv6: Option<bool>,\n\n    /// 用于生成确定性对等点 ID 的固定值\n    #[clap(long)]\n    secret_key_seed: u8,\n\n    /// 用于在所有接口上监听的端口\n    #[clap(long)]\n    port: u16,\n}\n\n\nfn main() {\n    println!(\"Hello, world!\");\n}\n"
+        }
+    ]
+}

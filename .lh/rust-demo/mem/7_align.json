@@ -1,0 +1,26 @@
+{
+    "sourceFile": "rust-demo/mem/7_align",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731120557645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731120562844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,6 @@\n+use std::mem;\n+\n #[repr(C)]\n struct Optimized {\n     a: u8,\n     b: u32,\n"
+                },
+                {
+                    "date": 1731120582410,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n     b: u32,\n     c: u8,\n }\n \n-fn alignment_optimization() {\n+//  内存对齐优化\n+fn main() {\n     println!(\"Size of Optimized: {}\", mem::size_of::<Optimized>());\n     println!(\"Size of Packed: {}\", mem::size_of::<Packed>());\n     println!(\"Alignment of Optimized: {}\", mem::align_of::<Optimized>());\n     println!(\"Alignment of Packed: {}\", mem::align_of::<Packed>());\n"
+                }
+            ],
+            "date": 1731120557645,
+            "name": "Commit-0",
+            "content": "#[repr(C)]\nstruct Optimized {\n    a: u8,\n    b: u32,\n    c: u8,\n}\n\n#[repr(C, packed)]\nstruct Packed {\n    a: u8,\n    b: u32,\n    c: u8,\n}\n\nfn alignment_optimization() {\n    println!(\"Size of Optimized: {}\", mem::size_of::<Optimized>());\n    println!(\"Size of Packed: {}\", mem::size_of::<Packed>());\n    println!(\"Alignment of Optimized: {}\", mem::align_of::<Optimized>());\n    println!(\"Alignment of Packed: {}\", mem::align_of::<Packed>());\n}"
+        }
+    ]
+}

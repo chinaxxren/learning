@@ -1,0 +1,26 @@
+{
+    "sourceFile": "tools/src/Opt.rs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1732188806058,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1732188815801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+use clap::Parser;\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n"
+                },
+                {
+                    "date": 1732189182756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n // 命令行参数结构体\n #[derive(Debug, Parser)]\n #[clap(name = \"libp2p relay\")]\n-struct Opt {\n+pub struct Opt {\n     /// 确定中继是否在 IPv6 或 IPv4 回环地址上监听。默认为 IPv4\n     #[clap(long)]\n     use_ipv6: Option<bool>,\n \n"
+                }
+            ],
+            "date": 1732188806058,
+            "name": "Commit-0",
+            "content": "\n// 命令行参数结构体\n#[derive(Debug, Parser)]\n#[clap(name = \"libp2p relay\")]\nstruct Opt {\n    /// 确定中继是否在 IPv6 或 IPv4 回环地址上监听。默认为 IPv4\n    #[clap(long)]\n    use_ipv6: Option<bool>,\n\n    /// 用于生成确定性对等点 ID 的固定值\n    #[clap(long)]\n    secret_key_seed: u8,\n\n    /// 用于在所有接口上监听的端口\n    #[clap(long)]\n    port: u16,\n}"
+        }
+    ]
+}
