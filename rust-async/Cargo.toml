@@ -8,6 +8,7 @@ async-std = { version = "1.13.0", features = ["attributes"] }
 futures = "0.3.17"
 pin-utils = "0.1.0"
 tokio = { workspace = true }
+tokio-util = { version = "0.7.12", features = ["full"] }
 
 [[bin]]
 name = "other"
